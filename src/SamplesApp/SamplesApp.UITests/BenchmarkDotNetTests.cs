@@ -23,8 +23,9 @@ namespace SamplesApp.UITests.Runtime
 
 		[Test]
 		[AutoRetry(tryCount: 1)]
-		[Timeout(300000)] // Adjust this timeout based on average test run duration
-		public async Task RunRuntimeTests()
+		[Timeout(500000)] // Adjust this timeout based on average test run duration
+		[ActivePlatforms(Platform.Browser)]
+		public async Task RunBenchmarks()
 		{
 			Run("Benchmarks.Shared.Controls.BenchmarkDotNetTestsPage");
 
@@ -33,9 +34,9 @@ namespace SamplesApp.UITests.Runtime
 				=> AppInitializer.GetLocalPlatform() == Platform.Browser ? query : query.All();
 
 			var runButton = new QueryEx(q => AllQuery(q).Marked("runButton"));
-			var runStatus = new QueryEx(q => AllQuery(q).All().Marked("runStatus"));
-			var runCount = new QueryEx(q => AllQuery(q).All().Marked("runCount"));
-			var benchmarkControl = new QueryEx(q => q.All().Marked("benchmarkControl"));
+			var runStatus = new QueryEx(q => AllQuery(q).Marked("runStatus"));
+			var runCount = new QueryEx(q => AllQuery(q).Marked("runCount"));
+			var benchmarkControl = new QueryEx(q => AllQuery(q).Marked("benchmarkControl"));
 
 			bool IsTestExecutionDone()
 				=> runStatus.GetDependencyPropertyValue("Text")?.ToString().Equals("Finished", StringComparison.OrdinalIgnoreCase) ?? false;
